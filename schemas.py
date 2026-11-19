@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, ConfigDict, EmailStr, Field
 from datetime import datetime
 
 class UserCreate(BaseModel):
@@ -6,10 +6,20 @@ class UserCreate(BaseModel):
     email: EmailStr
     password: str = Field(min_length=6)
 
-class UserPublic(BaseModel):
+class UserLogin(BaseModel):
+    email: EmailStr
+    password: str = Field(min_length=6)
+
+class UserResponse(BaseModel):
     id: int
     username: str = Field(min_length=3, max_length=50)
     email: EmailStr
+
+model_config = ConfigDict(from_attributes=True)
+
+class TokenResponse(BaseModel):
+    access_token: str
+    token_type: str
 
 class PostCreate(BaseModel):
     title: str = Field(min_length=1, max_length=200)
@@ -42,3 +52,5 @@ class PostPublic(BaseModel):
     created_at: datetime
     expires_at: datetime
     topics: list[TopicPublic]
+
+model_config = ConfigDict(from_attributes=True)

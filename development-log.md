@@ -80,5 +80,61 @@ Testing at this stage:
         ╰────┴──────────╯
     Additionally, I tested running seed.py twice and then testing the topics to ensure it did not create duplicates which it did not.
     
-    
+Milestone 3(19/11/2026): Authentication, Core Post API, and automated tests
+    Work completed
+    Added password hashing using pwdlib
+    Added user registration and login endpointS
+    Added JWT access tokes with a 30 minute expiry time
+    Added bearer-token authentication and a method to identify the current user
+    Added protected post creation so the post author is taken from the user who has been authenticated rather than allow the author to be provided in the request
+    Added validation for:
+        Expiry dates cannot be in the past
+        A minimum of one topic being selected
+        Valid topic IDs
+        Duplicate topics IDs
+    Added post-topic records to the posts_topics assosciation table
+    Added GET/ posts and GET/ posts/{post-id} to retrieve all or a single post
+    Added automated tests using pytest
+
+Testing at this stage:
+    Registration was tested for
+        Successful registration
+        Duplicate email
+        Invalide data
+    Login was tested for:
+        Succesful login
+        Incorrect password
+        Unknown email
+    JWT Authentication was tested for:
+        No token
+        Valid Token
+        Invalid Token
+    Post functionalities tested:
+        Unauthenticated post creation
+        Successful post creation
+        Missing topics
+        Invalid topic IDs
+        Duplicate topic IDs
+        Retrieving all posts
+        Retrieving a specific post
+
+    Automated tests ran using:
+        python -m pytest -q
+        This returned 16 passed
+
+Issues encountered:
+    Once again I faced an issue with indentation, and I had to rely on copliot to assist with debugging the code. But it turned out I had already fixed the issue but not saved my file. I resaved it and it worked ok.
+
+    Another error that came up was: NameError: name 'models' is not defined
+    This was because I had failed to add import models to the conftest.py file - Copilot was used here for debugging as well
+
+    The third issue after that had been corrected was a mislabellign issue where I named the assosciation posts_topics in models.py but was referencing post_topics. This returned an error that module 'models' has no attribute in 'post_topics'. I used copilot to help with debugging it which identified the issue and corrected it.
+
+    Additionally, during testing mid-development some test posts had saved to the database before the topic-assosciation error arose because they had already been committed, thios showed when I looked at the database using: 
+        SELECT * FROM posts;
+        This returned four posts
+        Testing: 
+        SELECT * FROM posts_topics;
+        This return two rows.
+    I then deleted the additional posts which had no assosciation. At this stage, I have not yet learnt how to prevent this from happening, it is something that I will need to consider in future.
 

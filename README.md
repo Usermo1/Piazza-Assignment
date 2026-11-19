@@ -11,6 +11,12 @@ A simple blog API, it currently uses FastAPI, SQLAlchemy, and SQLite. Future dev
         Install requirements:
             python -m pip install -r requirements.txt
 
+        Before starting the app, generate a secret:
+            python -c "import secrets; print(secrets.token_hex(32))"
+
+        Copy the result into an environment variable in the terminal.
+            $env:JWT_SECRET = "paste-the-generated-value-here"
+
         Run the app:
             uvicorn main:app --reload
         
@@ -23,5 +29,9 @@ A simple blog API, it currently uses FastAPI, SQLAlchemy, and SQLite. Future dev
         Additionaly, opening:
             http://127.0.0.1:8000/health
             This will display 200 OK
+
+        Automated tests can now be ran using:
+            python -m pytest -q
+            This should result in 16 passed
 
         
